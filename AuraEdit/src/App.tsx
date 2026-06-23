@@ -1,4 +1,5 @@
 import ImageUploader from "./components/ImageUploader.tsx"
+import CanvasEditor from "./components/CanvasEditor.tsx"
 
 function App() {
   
@@ -8,6 +9,7 @@ function App() {
       <div>
         <h1>PhotoEditor</h1>
         <ImageUploader/>
+        <CanvasEditor/>
       </div>
     </>
   )

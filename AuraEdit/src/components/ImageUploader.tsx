@@ -1,7 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import CanvasEditor from "./CanvasEditor.tsx";
 
 export default function ImageUploader(){
     const [image, setImage] = useState<string | null>(null)
+    
 
     const handleImageUploader = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -11,6 +13,19 @@ export default function ImageUploader(){
         const imageUrl = URL.createObjectURL(file)
 
         setImage(imageUrl)
+        
+    }
+
+    const handleDownload =() =>{
+        if(!image) return;
+
+        const link = document.createElement("a")
+
+        link.href = image;
+
+        link.download = "edited-image.png"
+
+        link.click()
     }
 
     return(
@@ -21,13 +36,7 @@ export default function ImageUploader(){
                 onChange={handleImageUploader}
             />
 
-            {image && (
-                <img>
-                    src={image}
-                    alt="preview"
-                    width={400}
-                </img>
-            )}
+            <CanvasEditor image={image}/>
         </div>
     )
 };
