@@ -2,11 +2,12 @@ import { useEffect, useRef } from "react";
 
 type canvasEditorprops = {
     image: string | null;
+    rotation: number | null;
 };
 
 
 
-export default function CanvasEditor({image}: canvasEditorprops){
+export default function CanvasEditor({image, rotation}: canvasEditorprops){
 
     const canvasref = useRef<HTMLCanvasElement>(null);
 
@@ -27,13 +28,22 @@ export default function CanvasEditor({image}: canvasEditorprops){
         img.src = image;
 
         img.onload = () => {
+
+            const radians = (rotation * Math.PI) / 180;
+
             canvas.width = img.width
             canvas.height = img.height;
 
-            ctx.drawImage(img ,0 ,0);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.save();
+
+            ctx.translate(canvas.width/2, canvas.height/2)
+
+            ctx.rotate(radians);
         }
 
-    }, [image])
+    }, [image, rotation])
 
     return(
         <canvas
