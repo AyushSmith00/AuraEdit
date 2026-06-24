@@ -2,12 +2,15 @@ import { useEffect, useRef } from "react";
 
 type canvasEditorprops = {
     image: string | null;
-    rotation: number | null;
+    rotation: number;
+    flipX: boolean;
+    flipY: boolean;
+    brightness: number;
 };
 
 
 
-export default function CanvasEditor({image, rotation}: canvasEditorprops){
+export default function CanvasEditor({image, rotation, flipX, flipY, brightness}: canvasEditorprops){
 
     const canvasref = useRef<HTMLCanvasElement>(null);
 
@@ -38,12 +41,20 @@ export default function CanvasEditor({image, rotation}: canvasEditorprops){
 
             ctx.save();
 
+            ctx.filter = `brightness(${brightness}%)`
+
             ctx.translate(canvas.width/2, canvas.height/2)
 
+            ctx.scale(flipX ? -1 : 1, flipY ? 1 : -1);
+
             ctx.rotate(radians);
+
+            ctx.drawImage(img, -img.width/2, -img.height/2);
+
+            ctx.restore();
         }
 
-    }, [image, rotation])
+    }, [image, rotation, flipX, flipY, brightness])
 
     return(
         <canvas
